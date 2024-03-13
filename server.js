@@ -18,31 +18,35 @@ const app = express()
 import { config } from "dotenv";
 config()
 
+
+
 import { MongoClient } from "mongodb";
-const PORT = process.env.PORT
+const PORT = process.env.PORT || 3000
 
 const connection = process.env.ATLAS_URI || ""
 
-const client = new MongoClient(connection)
+console.log(connection)
+console.log(PORT)
 
-let conn;
+// const client = new MongoClient(connection)
 
-try {
-  conn = await client.connect()
-  // app.listen(PORT, () => { console.log(`server running on ${PORT}`) })
+// let conn;
 
-  console.log("Mongo db connected...")
-} catch (e) {
-  console.error(e)
-}
+// try {
+//   conn = await client.connect()
 
-let db = conn.db("4dx")
+//   console.log("Mongo db connected...")
+// } catch (e) {
+//   console.error(e)
+// }
 
-app.get("/", async (req, res) => {
-  let collection = await db.collection("form-responses");
-  let results = await collection.find({}).toArray();
-  res.send(results).status(200);
-});
+// let db = conn.db("4dx")
+
+// app.get("/", async (req, res) => {
+//   let collection = await db.collection("form-responses");
+//   let results = await collection.find({}).toArray();
+//   res.send(results).status(200);
+// });
 
 
 
