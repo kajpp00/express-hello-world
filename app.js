@@ -22,7 +22,7 @@ var options = {
   maxAge: '1m',
   redirect: false
 }
-app.use(express.static('client/dist', options))
+app.use(express.static('client', options))
 
 // #############################################################################
 // Catch all handler for all other request.
