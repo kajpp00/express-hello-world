@@ -25,28 +25,25 @@ const PORT = process.env.PORT || 3000
 
 const connection = process.env.ATLAS_URI
 
-console.log(connection)
-console.log(PORT)
+const client = new MongoClient(connection)
 
-// const client = new MongoClient(connection)
+let conn;
 
-// let conn;
+try {
+  conn = await client.connect()
 
-// try {
-//   conn = await client.connect()
+  console.log("Mongo db connected...")
+} catch (e) {
+  console.error(e)
+}
 
-//   console.log("Mongo db connected...")
-// } catch (e) {
-//   console.error(e)
-// }
+let db = conn.db("4dx")
 
-// let db = conn.db("4dx")
-
-// app.get("/", async (req, res) => {
-//   let collection = await db.collection("form-responses");
-//   let results = await collection.find({}).toArray();
-//   res.send(results).status(200);
-// });
+app.get("/", async (req, res) => {
+  let collection = await db.collection("form-responses");
+  let results = await collection.find({}).toArray();
+  res.send(results).status(200);
+});
 
 
 
