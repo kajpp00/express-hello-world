@@ -23,7 +23,7 @@ config()
 import { MongoClient } from "mongodb";
 const PORT = process.env.PORT || 3000
 
-const connection = process.env.ATLAS_URI || ""
+const connection = process.env.ATLAS_URI
 
 console.log(connection)
 console.log(PORT)
