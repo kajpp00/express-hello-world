@@ -1,10 +1,19 @@
-const express = require('express')
-const path = require("path");
+// const express = require('express')
+// const path = require("path");
+// const app = express()
+const {MongoClient} = require('mongodb')
+import express from 'express'
+import path from "path";
 const app = express()
+import {MongoClient} from 'mongodb'
+import {config} from "dotenv";
+const uri = process.env.ATLAS_URL
 
-// #############################################################################
-// Logs all request paths and method
-app.use(function (req, res, next) {
+export default function App (){
+
+  // #############################################################################
+  // Logs all request paths and method
+  app.use(function (req, res, next) {
   res.set('x-timestamp', Date.now())
   res.set('x-powered-by', 'cyclic.sh')
   console.log(`[${new Date().toISOString()}] ${req.ip} ${req.method} ${req.path}`);
@@ -28,16 +37,17 @@ app.use(express.static('client/dist', options))
 // Catch all handler for all other request.
 app.use('*', (req,res) => {
   res.json({
-      at: new Date().toISOString(),
-      method: req.method,
-      hostname: req.hostname,
-      ip: req.ip,
-      query: req.query,
-      headers: req.headers,
-      cookies: req.cookies,
-      params: req.params
-    })
-    .end()
+    at: new Date().toISOString(),
+    method: req.method,
+    hostname: req.hostname,
+    ip: req.ip,
+    query: req.query,
+    headers: req.headers,
+    cookies: req.cookies,
+    params: req.params
+  })
+  .end()
 })
+}
 
-module.exports = app
+// module.exports = app

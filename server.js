@@ -1,7 +1,91 @@
-const app = require('./app')
+// import app from './app'
 
-const port = process.env.PORT || 3000
+// const port = process.env.PORT
 
-app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`)
+
+
+
+// app.listen(port, () => {
+//   console.log(`Example app listening at http://localhost:${port}`)
+// })
+
+
+
+
+
+import express from 'express'
+const app = express()
+import { config } from "dotenv";
+config()
+
+import { MongoClient } from "mongodb";
+const PORT = process.env.PORT
+
+const connection = process.env.ATLAS_URI || ""
+
+const client = new MongoClient(connection)
+
+let conn;
+
+try {
+  conn = await client.connect()
+  // app.listen(PORT, () => { console.log(`server running on ${PORT}`) })
+
+  console.log("Mongo db connected...")
+} catch (e) {
+  console.error(e)
+}
+
+let db = conn.db("4dx")
+
+app.get("/", async (req, res) => {
+  let collection = await db.collection("form-responses");
+  let results = await collection.find({}).toArray();
+  res.send(results).status(200);
+});
+
+
+
+
+// #############################################################################
+// Logs all request paths and method
+app.use(function (req, res, next) {
+  res.set('x-timestamp', Date.now())
+  res.set('x-powered-by', 'cyclic.sh')
+  console.log(`[${new Date().toISOString()}] ${req.ip} ${req.method} ${req.path}`);
+  next();
+});
+
+// #############################################################################
+// This configures static hosting for files in /public that have the extensions
+// listed in the array.
+var options = {
+  dotfiles: 'ignore',
+  etag: false,
+  extensions: ['htm', 'html', 'css', 'js', 'ico', 'jpg', 'jpeg', 'png', 'svg'],
+  index: ['index.html'],
+  maxAge: '1m',
+  redirect: false
+}
+app.use(express.static('client/dist', options))
+
+// #############################################################################
+// Catch all handler for all other request.
+app.use('*', (req, res) => {
+  res.json({
+    at: new Date().toISOString(),
+    method: req.method,
+    hostname: req.hostname,
+    ip: req.ip,
+    query: req.query,
+    headers: req.headers,
+    cookies: req.cookies,
+    params: req.params
+  })
+    .end()
 })
+
+
+// module.exports = app
+
+app.listen(PORT, () => { console.log(`server running on ${PORT}`) })
