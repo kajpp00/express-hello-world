@@ -1,6 +1,7 @@
 import { MongoClient } from "mongodb";
 const connection = process.env.ATLAS_URI || ""
-
+import express from 'express'
+const app = express();
 const client = new MongoClient(connection)
 
 let conn;
