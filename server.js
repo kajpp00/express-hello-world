@@ -70,4 +70,4 @@ app.use(express.static('client/dist', options))
 
 
 
-// app.listen(PORT, () => { console.log(`server running on ${PORT}`) })
+app.listen(PORT, () => { console.log(`server running on ${PORT}`) })
