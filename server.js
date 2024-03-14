@@ -6,41 +6,26 @@
 //   console.log(`Example app listening at http://localhost:${port}`)
 // })
 
+import "./loadEnvironment.mjs";
+import express from 'express'
+import cors from 'cors'
+const router = express.Router()
 import { MongoClient } from 'mongodb';
-import {config} from "dotenv";
-config();
-import express from 'express';
 const app = express();
-const PORT = process.env.PORT || 3000
-const uri = process.env.ATLAS_URI;
+const PORT = process.env.PORT
+import db from './db/conn.mjs'
+import path from "path";
+app.use(cors())
+app.use(express.json())
 
-const client = new MongoClient(uri);
+app.use('/form-responses',router)
 
-let conn;
+router.get("/", async (req, res) => {
+  let collection = await db.collection("form-responses");
+  let results = await collection.find({}).toArray();
+  res.send(results).status(200);
+});
 
-try {
-  
-  conn = await client.connect(err => {
-    if(err){ console.error(err); return false;}
-    // connection to mongo is successful, listen for requests
-    app.listen(PORT, () => {
-      console.log("listening for requests");
-    })
-  });
-} catch(e) {
-  console.error(e)
-}
-
-let db = conn.db("4dx")
-
-console.log(db);
-
-app.get("/", async (req, res) => {
-    let item = await client.db("4dx").collection("form-responses")
-    let results = await item.find({}).toArray(0)
-
-    return res.send(results).status(200)
-})
 
 
 // #############################################################################
@@ -82,6 +67,5 @@ app.use('*', (req, res) => {
 })
 
 
-// module.exports = app
 
-// app.listen(PORT, () => { console.log(`server running on ${PORT}`) })
+app.listen(PORT, () => { console.log(`server running on ${PORT}`) })
