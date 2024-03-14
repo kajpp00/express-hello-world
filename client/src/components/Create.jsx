@@ -4,7 +4,7 @@ import axios from "axios";
 export const action = async ({ request, params }) => {
   const formData = await request.formData();
   const user = Object.fromEntries(formData);
-  const results = await axios.post("http://localhost:5500/form-responses", user);
+  const results = await axios.post("http://localhost:3000/form-responses", user);
   return redirect('/');
 };
 

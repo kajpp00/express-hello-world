@@ -2,7 +2,7 @@ import axios from 'axios'
 import {Link, useLoaderData} from 'react-router-dom'
 
 export const loader = async () => {
-    const result = await axios.get('http://localhost:5500/form-responses')
+    const result = await axios.get('http://localhost:3000/form-responses')
     console.log(result.data);
     return result.data
 }
