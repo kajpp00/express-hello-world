@@ -3,6 +3,7 @@ const connection = process.env.ATLAS_URI || ""
 import express from 'express'
 const app = express();
 const client = new MongoClient(connection)
+const PORT = process.env.PORT
 
 let conn;
 
