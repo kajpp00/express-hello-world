@@ -1,4 +1,5 @@
 import { MongoClient } from "mongodb";
+const PORT = process.env.PORT
 
 const connection = process.env.ATLAS_URI || ""
 
