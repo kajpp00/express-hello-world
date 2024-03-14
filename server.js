@@ -4,6 +4,7 @@ import cors from 'cors'
 const router = express.Router()
 const app = express();
 import db from './db/conn.mjs'
+const PORT = process.env.PORT
 app.use(cors())
 app.use(express.json())
 
@@ -67,3 +68,6 @@ router.post("/", async (req, res) => {
   let result = await collection.insertOne(newDocument)
   res.send(result).status(204)
 })
+
+
+app.listen(PORT, () => { console.log(`server running on ${PORT}`) })
