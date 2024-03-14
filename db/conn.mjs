@@ -8,7 +8,7 @@ let conn;
 
 try {
     conn = await client.connect()
-    // app.listen(PORT, () => { console.log(`server running on ${PORT}`) })
+    app.listen(PORT, () => { console.log(`server running on ${PORT}`) })
     
     console.log("Mongo db connected...")
 } catch (e) {
