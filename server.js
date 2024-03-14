@@ -1,28 +1,13 @@
-// import app from './app'
-
-// const port = process.env.PORT
-
-// app.listen(port, () => {
-//   console.log(`Example app listening at http://localhost:${port}`)
-// })
-
 import "./loadEnvironment.mjs";
 import express from 'express'
 import cors from 'cors'
 const router = express.Router()
 const app = express();
-const PORT = process.env.PORT
 import db from './db/conn.mjs'
 app.use(cors())
 app.use(express.json())
 
 app.use('/form-responses',router)
-
-router.get("/", async (req, res) => {
-  let collection = await db.collection("form-responses");
-  let results = await collection.find({}).toArray();
-  res.send(results).status(200);
-});
 
 
 
@@ -64,6 +49,21 @@ app.use('*', (req, res) => {
     .end()
 })
 
+// #############################################################################
+// All CRUD Routes.
+
+router.get("/", async (req, res) => {
+  let collection = await db.collection("form-responses");
+  let results = await collection.find({}).toArray();
+  res.send(results).status(200);
+});
 
 
-app.listen(PORT, () => { console.log(`server running on ${PORT}`) })
+router.post("/", async (req, res) => {
+  let newDocument = {
+      name: req.body.name,
+  }
+  const collection = await db.collection('form-responses')
+  let result = await collection.insertOne(newDocument)
+  res.send(result).status(204)
+})
