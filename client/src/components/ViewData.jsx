@@ -10,15 +10,18 @@ export const loader = async () => {
 
 export default function ViewData() {
     const data = useLoaderData()
-    console.log(Object.entries(data[0].response))
+    // console.log(Object.entries(data[0].response))
+    // console.log(data)
 
-    const dataMap = data.map((x,i)=>{
+    const dataMap = Object.entries(data).map((x, i) => {
         return <div key={i}>
-            {Object.entries(x.response[0])}
+            {x[1].response}
         </div>
     })
-    
+
     return (
-        <div>{dataMap}</div>
+        <div>test view
+            {data && dataMap}
+        </div>
     )
 }

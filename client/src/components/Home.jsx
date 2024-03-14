@@ -13,20 +13,20 @@ export const action = async ({ request, params }) => {
     const formData = await request.formData();
     const user = Object.fromEntries(formData);
     // console.log(formData.getAll);
-//     formData.forEach(x=>{
-//         console.log(x)
-//     })
-const userArr = []
-   formData.entries().forEach(x=>
-    userArr.push(x)
+    //     formData.forEach(x=>{
+    //         console.log(x)
+    //     })
+    const userArr = []
+    formData.entries().forEach(x =>
+        userArr.push(x)
     )
-// console.log(userArr);
+    // console.log(userArr);
 
     const results = await axios.post("http://localhost:3000/form-responses", userArr);
     return user
     // return redirect('/');
-  };
-  
+};
+
 
 
 const Home = () => {
